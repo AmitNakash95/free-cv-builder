@@ -1,0 +1,11 @@
+# Cloudflare Pages / Workers static-assets upload ignore file (gitignore syntax).
+# Applies regardless of git tracking, so it also covers Wrangler direct-upload
+# and dashboard drag-and-drop deploys — not just git-integration builds.
+
+# Never upload the git repo itself or any other dot-prefixed file/folder
+# (.git, .github, .gitignore, .gitattributes, .DS_Store, .env, .vscode, etc.)
+.*
+
+# Not part of the deployed site
+README.md
+LICENSE

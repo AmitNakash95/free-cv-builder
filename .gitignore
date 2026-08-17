@@ -1,0 +1,15 @@
+# OS / editor cruft
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# Local env / secrets — this project has none by default, but never track them
+.env
+.env.*
+
+# Anything else dot-prefixed at the root (keeps the deploy output clean too)
+/.*
+!/.gitignore
+!/.gitattributes
+!/.assetsignore
