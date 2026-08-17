@@ -20,7 +20,7 @@ A free, open-source CV/resume builder that runs entirely in your browser. No sig
 
 ## Quick Use
 
-1. **Open the app**: visit the live version [here](https://agitmit.github.io/free-cv-builder/).
+1. **Open the app**: visit the live version [here](https://amitnakash95.github.io/free-cv-builder/).
 2. **Edit your CV**: click any text on the page to edit it in place.
 3. **Customize**: open the floating panel (bottom-right) to switch templates, flip the sidebar side, pick a color, toggle dark mode, add sections, or upload/hide a photo.
 4. **Export**: use "Download as PDF" or "Download as DOCX" in the panel, or `Ctrl+P` / `Cmd+P` and save as PDF.
