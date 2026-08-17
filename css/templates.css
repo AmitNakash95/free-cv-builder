@@ -1,0 +1,307 @@
+/* Each template only overrides layout/skin — shared structure & components
+   live in base.css. Scoped under [data-template="..."] on <body>. */
+
+/* ================= Modern Sidebar (default) ================= */
+
+[data-template="modern-sidebar"] .cv-card {
+  grid-template-columns: 66% 34%;
+  grid-template-areas: "header header" "main sidebar";
+}
+[data-template="modern-sidebar"] .avatar-wrap {
+  display: block;
+}
+[data-template="modern-sidebar"] .sidebar-column::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 48px;
+  bottom: 48px;
+  width: 1px;
+  background: var(--border);
+}
+[data-template="modern-sidebar"] .name {
+  background: linear-gradient(90deg, var(--text), var(--accent-strong) 130%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+[data-template="modern-sidebar"][data-sidebar="left"] .cv-card {
+  grid-template-columns: 34% 66%;
+  grid-template-areas: "header header" "sidebar main";
+}
+[data-template="modern-sidebar"][data-sidebar="left"] .sidebar-column::before {
+  left: auto;
+  right: 0;
+}
+
+/* ================= Minimal ================= */
+
+[data-template="minimal"] .cv-card {
+  grid-template-columns: 1fr;
+  box-shadow: none;
+  border: 1px solid var(--border);
+}
+[data-template="minimal"] .cv-header {
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+[data-template="minimal"] .title {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+[data-template="minimal"] .section-head h2 {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  font-size: 1.15em;
+  border-bottom: 2px solid var(--accent-soft);
+  padding-bottom: 8px;
+}
+[data-template="minimal"] .entry-subheading {
+  color: var(--text-muted);
+}
+[data-template="minimal"] .main-column,
+[data-template="minimal"] .sidebar-column {
+  padding: 20px 56px;
+}
+[data-template="minimal"] .sidebar-column .section .items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 4px 24px;
+}
+[data-template="minimal"] .language-level-select,
+[data-template="minimal"] .language-level-print {
+  background: transparent;
+  padding: 0;
+}
+
+/* ================= Timeline ================= */
+
+[data-template="timeline"] .cv-card {
+  grid-template-columns: 1fr;
+}
+[data-template="timeline"] .avatar-wrap {
+  display: none;
+}
+[data-template="timeline"] .cv-header {
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 24px;
+}
+[data-template="timeline"] .summary {
+  max-width: 60ch;
+  margin: 0 auto;
+  text-align: center;
+}
+[data-template="timeline"] .sidebar-column::before {
+  display: none;
+}
+[data-template="timeline"] .sidebar-column .section .items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+}
+[data-template="timeline"] .sidebar-column .contact-item {
+  margin-bottom: 0;
+}
+[data-template="timeline"] .section--entries .items {
+  position: relative;
+  padding-left: 28px;
+}
+[data-template="timeline"] .section--entries .items::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: var(--accent-soft);
+}
+[data-template="timeline"] .entry-item {
+  position: relative;
+  padding-left: 22px;
+}
+[data-template="timeline"] .entry-item::before {
+  content: "";
+  position: absolute;
+  left: -28px;
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 3px solid var(--accent);
+}
+
+/* ================= ATS Compact ================= */
+
+[data-template="ats"] .cv-card {
+  grid-template-columns: 1fr;
+  box-shadow: none;
+  border-radius: 0;
+}
+[data-template="ats"] .avatar-wrap {
+  display: none;
+}
+[data-template="ats"] .name {
+  color: var(--text);
+  font-size: 2.2em;
+}
+[data-template="ats"] .title {
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 1.1em;
+}
+[data-template="ats"] .entry-subheading {
+  color: var(--text);
+  font-weight: 600;
+}
+[data-template="ats"] .section-head h2 {
+  color: var(--text);
+  border-bottom: 1.5px solid var(--text);
+  padding-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+[data-template="ats"] .drag-handle {
+  visibility: hidden;
+}
+[data-template="ats"] .contact-icon {
+  display: none;
+}
+[data-template="ats"] .contact-item {
+  display: block;
+  margin-bottom: 6px;
+}
+[data-template="ats"] .contact-name {
+  display: inline;
+  color: var(--text-muted);
+}
+[data-template="ats"] .contact-name::after {
+  content: ": ";
+}
+[data-template="ats"] .contact-value {
+  display: inline;
+  font-weight: 400;
+}
+[data-template="ats"] .sidebar-column .section .items {
+  display: block;
+}
+[data-template="ats"] .skill-bar,
+[data-template="ats"] .skill-range {
+  display: none;
+}
+[data-template="ats"] .items--bar .skill-item::after {
+  content: attr(data-level) "%";
+  color: var(--text-soft);
+  font-size: 0.85em;
+}
+[data-template="ats"] .items--years .skill-years-edit {
+  display: none;
+}
+[data-template="ats"] .items--years .skill-years-print {
+  display: inline;
+}
+[data-template="ats"] .items--tag {
+  display: block;
+}
+[data-template="ats"] .skill-item--tag {
+  display: inline;
+  background: none;
+  padding: 0;
+  margin-right: 4px;
+}
+[data-template="ats"] .skill-item--tag .skill-name {
+  display: inline;
+  color: var(--text);
+  font-weight: 400;
+}
+[data-template="ats"] .skill-item--tag:not(:last-child) .skill-name::after {
+  content: ",";
+}
+[data-template="ats"] .language-level-select,
+[data-template="ats"] .language-level-print {
+  background: transparent;
+  padding: 0;
+  color: var(--text-muted);
+}
+[data-template="ats"] .main-column,
+[data-template="ats"] .sidebar-column {
+  padding: 28px 48px;
+}
+
+/* ================= Creative ================= */
+
+[data-template="creative"] .cv-card {
+  grid-template-columns: 34% 66%;
+  grid-template-areas: "header header" "sidebar main";
+}
+[data-template="creative"] .sidebar-column {
+  background: var(--panel-bg);
+  --text: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.85);
+  --text-soft: rgba(255, 255, 255, 0.65);
+  --border: rgba(255, 255, 255, 0.28);
+  --accent: #ffffff;
+  --accent-strong: #ffffff;
+  --accent-soft: rgba(255, 255, 255, 0.16);
+  color: var(--text);
+}
+[data-template="creative"] .sidebar-column::before {
+  display: none;
+}
+[data-template="creative"] .cv-header {
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 32px;
+}
+[data-template="creative"] .cv-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--border) 1.4px, transparent 1.4px);
+  background-size: 16px 16px;
+  -webkit-mask-image: linear-gradient(to bottom, black, transparent 85%);
+  mask-image: linear-gradient(to bottom, black, transparent 85%);
+  opacity: 0.5;
+  pointer-events: none;
+}
+[data-template="creative"] .avatar-wrap {
+  display: block;
+}
+[data-template="creative"] .avatar,
+[data-template="creative"] .avatar-empty {
+  width: 116px;
+  height: 116px;
+}
+[data-template="creative"] .name {
+  font-size: 3.2em;
+}
+[data-template="creative"] .title {
+  color: var(--accent-strong);
+}
+[data-template="creative"] .sidebar-column .section-head h2 {
+  color: #fff;
+}
+[data-template="creative"][data-sidebar="right"] .cv-card {
+  grid-template-columns: 66% 34%;
+  grid-template-areas: "header header" "main sidebar";
+}
+
+@media (max-width: 760px) {
+  /* The extra [data-sidebar] variants match the left/right override rules'
+     specificity so this always wins on narrow screens regardless of the
+     sidebar-position setting. */
+  [data-template="modern-sidebar"] .cv-card,
+  [data-template="creative"] .cv-card,
+  [data-template="modern-sidebar"][data-sidebar] .cv-card,
+  [data-template="creative"][data-sidebar] .cv-card {
+    grid-template-columns: 1fr;
+    grid-template-areas: "header" "main" "sidebar";
+  }
+  [data-template="modern-sidebar"] .sidebar-column::before,
+  [data-template="modern-sidebar"][data-sidebar="left"] .sidebar-column::before {
+    display: none;
+  }
+}

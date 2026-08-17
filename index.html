@@ -1,60 +1,204 @@
 <!DOCTYPE html>
-<!-- This CV template was created by Amit Nakash and is completely free for personal or commercial use -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free CV-Builder</title>
-    <link href="./inter.css" rel="stylesheet">
-    <script src="./inter.js"></script>
+<!-- Free CV Builder — created by Amit Nakash, free and open source for personal or commercial use -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free CV Builder — Create a Professional Resume in Your Browser</title>
+  <meta name="description" content="A free, open-source CV/resume builder that runs entirely in your browser. Five templates, custom colors, dark mode, drag-and-drop sections — no sign-up, no server, your data never leaves your device.">
+  <meta name="theme-color" content="#0984e3">
+  <meta property="og:title" content="Free CV Builder">
+  <meta property="og:description" content="Build and export a professional CV in your browser — free, open source, no account needed.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%84%3C/text%3E%3C/svg%3E">
+  <link href="css/base.css" rel="stylesheet">
+  <link href="css/templates.css" rel="stylesheet">
 </head>
-<body>
-    <div class="container">
-        <div class="main-content">
-            <header>
-                <h1 class="name" contenteditable="true" oninput="updateField(this, &#39;name&#39;)">Your Name</h1>
-                <div class="title" contenteditable="true" oninput="updateField(this, &#39;title&#39;)">Your Job Title</div>
-                <p class="summary" contenteditable="true" oninput="updateField(this, &#39;summary&#39;)">Brief summary about yourself.</p><div>
-            </div></header>
+<body data-template="modern-sidebar" data-mode="light">
 
-            <section id="experience-section" class="section" draggable="true">
-                <h2>Experience</h2>
-                <div id="experience-container"></div>
-                <button class="add-btn" onclick="addExperience()">Add Experience</button>
-            </section>
-
-            <section id="education-section" class="section" draggable="true">
-                <h2>Education</h2>
-                <div id="education-container"></div>
-                <div class="editable-item"></div>
-                <button class="add-btn" onclick="addEducation()">Add Education</button>
-            </section>
+  <div class="page-shell">
+    <div id="cv-root" class="cv-card">
+      <header class="cv-header">
+        <div class="avatar-wrap" id="avatar-wrap"></div>
+        <div class="cv-header-text">
+          <h1 class="name" id="cv-name" contenteditable="true" data-placeholder="Your Name" data-bind="profile.name"></h1>
+          <div class="title" id="cv-title" contenteditable="true" data-placeholder="Your Job Title" data-bind="profile.title"></div>
+          <p class="summary" id="cv-summary" contenteditable="true" data-placeholder="Brief summary about yourself." data-bind="profile.summary"></p>
         </div>
+      </header>
 
-        <div class="sidebar">
-            <section id="contact-section" class="section" draggable="true">
-                <h2>Contact</h2>
-                <div id="contact-container"></div>
-                <button class="add-btn" onclick="addContact()">Add Contact</button>
-            </section>
+      <div class="main-column" id="main-column"></div>
+      <div class="sidebar-column" id="sidebar-column"></div>
+    </div>
+  </div>
 
-            <section id="skills-section" class="section skills" draggable="true">
-                <h2>Skills</h2>
-                <div id="skills-container">
-                    <ul class="skills-list">
-                    </ul>
-                </div>
-                <button class="add-btn" onclick="addSkill()">Add Skill</button>
-            </section><section id="languages-section" class="section languages" draggable="true">
-                <h2>Languages</h2>
-                <div id="language-items">
-                    <!-- Dynamically added language items will go here -->
-                <div class="editable-item,language-item">
-                <button class="add-btn" onclick="addLanguageItem()">Add Language</button>
-                </div>
-            </div></section>
+  <footer class="site-footer no-print">
+    Built with <a href="https://github.com/AGitmit/free-cv-builder" target="_blank" rel="noopener">Free CV Builder</a> — free &amp; open source, no account needed.
+    Made by <a href="https://nakash.tech" target="_blank" rel="noopener">Amit Nakash</a>.
+  </footer>
 
-            
+  <input type="file" id="photo-input" accept="image/*" hidden>
+
+  <aside class="toolbar no-print" id="toolbar">
+    <div class="toolbar-panel" id="toolbar-panel">
+
+      <div class="toolbar-group">
+        <h3>CV Guidance</h3>
+        <button class="toolbar-btn" id="tips-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.4 1 1.1 1 1.9v.2h5v-.2c0-.8.4-1.5 1-1.9A6 6 0 0 0 12 3z"/></svg>
+          Tips for a great CV
+        </button>
+      </div>
+
+      <div class="toolbar-group">
+        <h3>Template</h3>
+        <div class="chip-row" id="template-options"></div>
+      </div>
+
+      <div class="toolbar-group">
+        <h3>Sidebar Position</h3>
+        <div class="chip-row" id="sidebar-position">
+          <button class="chip" data-side="left" type="button">Left</button>
+          <button class="chip" data-side="right" type="button">Right</button>
         </div>
+        <p class="toolbar-hint">Only applies to two-column templates (Modern Sidebar, Creative).</p>
+      </div>
+
+      <div class="toolbar-group">
+        <h3>Accent Color</h3>
+        <div class="swatch-row" id="palette-options"></div>
+        <input type="color" id="custom-accent" class="custom-accent-input" title="Custom color">
+      </div>
+
+      <div class="toolbar-group">
+        <h3>Appearance</h3>
+        <button class="toolbar-btn" id="mode-toggle" type="button"></button>
+      </div>
+
+      <div class="toolbar-group">
+        <h3>Photo</h3>
+        <button class="toolbar-btn" id="toolbar-photo-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 15-5-5-9 9"/></svg>
+          Upload / change photo
+        </button>
+        <label class="toolbar-checkbox">
+          <input type="checkbox" id="show-photo-toggle" checked>
+          Show photo on my CV
+        </label>
+      </div>
+
+      <div class="toolbar-group">
+        <h3>Sections</h3>
+        <div class="add-section-wrap">
+          <div class="add-section-menu" id="add-section-menu"></div>
+          <button class="toolbar-btn" id="add-section-btn" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            Add section
+          </button>
+        </div>
+      </div>
+
+      <div class="toolbar-group">
+        <h3>Your Data</h3>
+        <button class="toolbar-btn" id="export-json" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4.5-4.5M12 15l4.5-4.5M4 18v1.5A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5V18"/></svg>
+          Export JSON
+        </button>
+        <label class="toolbar-btn file-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3m0 0 4.5 4.5M12 3 7.5 7.5M4 18v1.5A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5V18"/></svg>
+          Import JSON
+          <input type="file" id="import-json" accept="application/json">
+        </label>
+        <button class="toolbar-btn" id="load-sample" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M4 12h6M4 18h12"/><circle cx="17" cy="6" r="2"/><circle cx="12" cy="18" r="2"/></svg>
+          Load sample data
+        </button>
+        <button class="toolbar-btn danger" id="reset-cv" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+          Reset to blank
+        </button>
+      </div>
+
+      <div class="toolbar-group">
+        <h3>Export</h3>
+        <button class="toolbar-btn" id="download-pdf" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4.5-4.5M12 15l4.5-4.5M4 18v1.5A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5V18"/></svg>
+          Download as PDF
+        </button>
+        <button class="toolbar-btn" id="download-docx" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>
+          Download as DOCX
+        </button>
+      </div>
+
+      <div class="toolbar-group">
+        <h3>Spread the Word</h3>
+        <button class="toolbar-btn" id="share-tool" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="m8.2 10.8 7.6-4.6M8.2 13.2l7.6 4.6"/></svg>
+          Share this tool
+        </button>
+      </div>
+
+      <p class="toolbar-footnote">Your CV lives only in this browser (localStorage) — nothing is uploaded anywhere. Use Export JSON to back it up or move it to another device.</p>
+      <p class="toolbar-footnote">Made by <a href="https://nakash.tech" target="_blank" rel="noopener">Amit Nakash</a>.</p>
     </div>
 
-</body></html>
+    <button class="toolbar-toggle" id="toolbar-toggle" type="button" aria-label="Open customization panel">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M4 12h6M4 18h12"/><circle cx="17" cy="6" r="2"/><circle cx="12" cy="18" r="2"/></svg>
+    </button>
+  </aside>
+
+  <div class="modal-overlay no-print" id="tips-modal">
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="tips-title">
+      <button class="icon-btn modal-close" id="tips-close" type="button" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <h2 id="tips-title">Tips for a great CV</h2>
+      <p class="modal-intro">A quick, practical checklist — not rules, just what tends to work.</p>
+
+      <h3>Keep it to one page</h3>
+      <ul>
+        <li>Recruiters often spend well under a minute on a first pass — a tight one-pager reads faster than a sprawling one.</li>
+        <li>One page is the norm for most candidates; two pages is reasonable once you're well into a senior or executive career.</li>
+        <li>To cut length: trim roles older than ~10–15 years to a line each, drop bullets that don't support the job you want, and tighten wording instead of shrinking the font.</li>
+        <li>Try the <strong>ATS Compact</strong> or <strong>Minimal</strong> template if you're fighting for space — they fit more content per inch than the two-column layouts.</li>
+      </ul>
+
+      <h3>Get past the ATS (the software that screens most CVs first)</h3>
+      <ul>
+        <li>Use conventional section titles — <strong>Experience, Education, Skills</strong> — parsers look for these; creative alternatives can go unread.</li>
+        <li>Mirror the language of the job post: match its skill names, tools, and job title wording so keyword matching finds them.</li>
+        <li>Spell out acronyms at least once (e.g. "Search Engine Optimization (SEO)") so both the long and short form match.</li>
+        <li>If you suspect strict/older parsing software, prefer the <strong>ATS Compact</strong> template — no columns, icons, or graphics that can confuse a parser.</li>
+        <li>Always export as a real PDF (or DOCX) with selectable text, not a scanned image or screenshot.</li>
+      </ul>
+
+      <h3>Then write for the human who reads it next</h3>
+      <ul>
+        <li>Start bullets with a strong action verb — <em>Led, Built, Reduced, Launched</em> — instead of "Responsible for."</li>
+        <li>Quantify impact wherever you can: percentages, dollars, time saved, team size, users reached.</li>
+        <li>Keep each bullet to one or two lines; if it doesn't support the role you're applying for, cut it.</li>
+        <li>Tailor your title and summary to the job — a generic summary reads as not-quite-relevant.</li>
+      </ul>
+
+      <h3>Formatting hygiene</h3>
+      <ul>
+        <li>List experience in reverse-chronological order (most recent first).</li>
+        <li>Keep tense consistent — past roles in past tense, your current role in present tense.</li>
+        <li>Stick to one or two accent colors and a single font family; consistency reads as more polished than variety.</li>
+        <li>Proofread — typos are one of the most common, and most avoidable, reasons a CV gets passed over.</li>
+      </ul>
+
+      <h3>Contact details</h3>
+      <ul>
+        <li>Include email, phone, and a city/region — a full street address is rarely expected anymore and mostly just a privacy risk.</li>
+        <li>A portfolio, GitHub, or LinkedIn link is worth including whenever it's actually relevant to the role.</li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/docx@9.7.1/dist/index.iife.min.js" defer></script>
+  <script src="js/sample-data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
